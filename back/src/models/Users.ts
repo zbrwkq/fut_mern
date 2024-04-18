@@ -16,4 +16,4 @@ export const UserSchema = new mongoose.Schema<User>({
     team: TeamSchema,
 })
 
-export const UserModel = mongoose.model<User>('User', UserSchema)
+export const UserModel = mongoose.model<User>('users', UserSchema)

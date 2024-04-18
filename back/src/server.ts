@@ -27,7 +27,9 @@ const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 app.use("/api/team/", TeamRoutes);
+app.use("/api/player/", PlayerRoutes);
+app.use("/api/event/", EventRoutes);
 
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+    console.log(`Server running on port ${PORT}`);
 });
