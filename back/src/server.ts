@@ -1,5 +1,8 @@
 import express from "express";
 import TeamRoutes from "./routes/TeamRoutes";
+import PlayerRoutes from "./routes/PlayerRoutes";
+import EventRoutes from "./routes/EventRoutes";
+// TODO revoir la connexion mongoose
 
 const mongoose = require('mongoose');
 const uri = "mongodb+srv://username:eSGvrbLyC5gV2EvY@fut.c5bgtvc.mongodb.net/FUT?retryWrites=true&w=majority&appName=FUT";
