@@ -16,3 +16,30 @@ Content-Type: application/json
     "email": "test@example.com",
     "password": "motdepasse123"
 }
+
+###
+GET http://127.0.0.1:3000/api/users/
+
+###
+GET http://127.0.0.1:3000/api/users/6620d6910101788d2c6648df
+
+###
+POST http://127.0.0.1:3000/api/users/
+Content-Type: application/json
+
+{
+    "name": "Jackie Chan",
+    "email": "jackie@chan.fr",
+    "password": "password"
+}
+
+###
+PUT http://127.0.0.1:3000/api/users/6620d6910101788d2c6648df
+Content-Type: application/json
+
+{
+    "password": "motdepasse"
+}
+
+###
+DELETE http://127.0.0.1:3000/api/users/6620d6910101788d2c6648df
