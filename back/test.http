@@ -1,5 +1,5 @@
 ###
-POST http://localhost:3000/api/users/register
+POST http://localhost:3000/api/user/register
 Content-Type: application/json
 
 {
@@ -13,7 +13,7 @@ Content-Type: application/json
 
 
 ###
-POST http://localhost:3000/api/users/login
+POST http://localhost:3000/api/user/login
 Content-Type: application/json
 
 { 
@@ -22,13 +22,13 @@ Content-Type: application/json
 }
 
 ###
-GET http://127.0.0.1:3000/api/users/
+GET http://127.0.0.1:3000/api/user/
 
 ###
-GET http://127.0.0.1:3000/api/users/6620d6910101788d2c6648df
+GET http://127.0.0.1:3000/api/user/6620d6910101788d2c6648df
 
 ###
-POST http://127.0.0.1:3000/api/users/
+POST http://127.0.0.1:3000/api/user/
 Content-Type: application/json
 
 {
@@ -38,7 +38,7 @@ Content-Type: application/json
 }
 
 ###
-PUT http://127.0.0.1:3000/api/users/6620d6910101788d2c6648df
+PUT http://127.0.0.1:3000/api/user/6620d6910101788d2c6648df
 Content-Type: application/json
 
 {
@@ -46,4 +46,7 @@ Content-Type: application/json
 }
 
 ###
-DELETE http://127.0.0.1:3000/api/users/6620ef0ca5d0ac742fb0b99d
+DELETE http://127.0.0.1:3000/api/user/6620d6910101788d2c6648df
+
+###
+GET http://127.0.0.1:3000/api/player?available=true&page=2

@@ -30,7 +30,7 @@ app.use(express.json());
 app.use("/api/team/", TeamRoutes);
 app.use("/api/player/", PlayerRoutes);
 app.use("/api/event/", EventRoutes);
-app.use("/api/users", UserRoutes);
+app.use("/api/user/", UserRoutes);
 
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
