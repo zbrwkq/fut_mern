@@ -1,56 +1,53 @@
 import { Button, Container, Form, Spinner } from "react-bootstrap";
 import MainSection from "../component/mainSection/mainSection";
-import { Link } from "react-router-dom";
-import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useUser } from "../UserProvider";
 import axios from "axios";
 
 export default function Login() {
   const [validated, setValidated] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [form, setForm] = useState({
-    email: {
-      valid: false,
-      error: "",
-    },
-    username: {
-      valid: false,
-      error: "",
-    },
-    password: {
-      valid: false,
-      error: "",
-    },
-    confirmPassword: {
-      valid: false,
-      error: "",
-    },
-    valid: false,
+  const { user, setUser } = useUser();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (user) {
+      navigate("/");
+    }
   });
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    const formEl = event.currentTarget;
     event.preventDefault();
     event.stopPropagation();
 
+    const formEl = event.currentTarget;
     setValidated(true);
-    console.log(validated && !form.email.valid);
-    if (form.valid) {
-      setLoading(true);
-      const fetchData = async () => {
-        try {
-          const { data } = await axios.get("/register");
-          console.log(data.results);
-          setLoading(false);
-        } catch (error) {
-          setLoading(false);
-          console.error(error);
-        }
-      };
-      fetchData();
-    }
+    const email = formEl.querySelector<HTMLInputElement>(
+      'input[name="email"]'
+    )!.value;
+    const password = formEl.querySelector<HTMLInputElement>(
+      'input[name="password"]'
+    )!.value;
+    setLoading(true);
+
+    const fetchData = async () => {
+      try {
+        const { data } = await axios.post("/users/login", {
+          email: email,
+          password: password,
+        });
+        setUser(data.user);
+        navigate("/");
+      } catch (error: any) {
+        setLoading(false);
+        console.log(error);
+      }
+    };
+    fetchData();
   };
 
-  const LoginButton = () => {
+  const RegisterButton = () => {
     if (loading) {
       return (
         <Button
@@ -65,7 +62,7 @@ export default function Login() {
             size="sm"
             role="status"
             aria-hidden="true"
-          />
+          />{" "}
           Chargement...
         </Button>
       );
@@ -81,12 +78,11 @@ export default function Login() {
       );
     }
   };
-
   return (
     <MainSection>
       <Container className="position-relative w-100">
         <h1 className="text-center d-block">Football club manager</h1>
-        <h2>Créer un compte</h2>
+        <h2>Connexion</h2>
         <Form
           noValidate
           validated={validated}
@@ -98,48 +94,26 @@ export default function Login() {
               type="text"
               name="email"
               placeholder="Entrez votre email"
-              isValid={validated && form.email.valid}
-              isInvalid={validated && !form.email.valid}
-            />
-            <Form.Control.Feedback type="invalid">
-              {form.email.error}
-            </Form.Control.Feedback>
-          </Form.Group>
-          <Form.Group>
-            <Form.Label>Nom d'utilisateur</Form.Label>
-            <Form.Control
-              type="text"
-              name="usermane"
-              placeholder="Entrez votre pseudo"
+              required
             />
           </Form.Group>
           <Form.Group>
             <Form.Label>Mot de passe</Form.Label>
             <Form.Control
-              type="text"
+              type="password"
               name="password"
               placeholder="Entrez votre mot de passe"
               required
-              min="6"
-              max="24"
-            />
-            <Form.Control
-              type="text"
-              name="confirmPassword"
-              placeholder="Vérifiez votre mot de passe"
-              className="mt-2"
-              required
-              min="6"
-              max="24"
             />
           </Form.Group>
-          <LoginButton />
+          <RegisterButton />
         </Form>
+
         <Link
-          to="/login"
+          to="/register"
           className="position-absolute bottom-0 start-50 translate-middle-x p-4"
         >
-          Deja inscrit ?
+          Pas encore inscrit ?
         </Link>
       </Container>
     </MainSection>

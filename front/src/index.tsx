@@ -3,17 +3,19 @@ import ReactDOM from "react-dom/client";
 import "./index.scss";
 import reportWebVitals from "./reportWebVitals";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Login from "./login/login";
-import Register from "./register/register";
+import Login from "./auth/login";
+import Register from "./auth/register";
 import axios from "axios";
 import { UserProvider } from "./UserProvider";
+import Dashboard from "./dashboard/dashboard";
+import Logout from "./auth/logout";
 
 axios.defaults.baseURL = "http://127.0.0.1:8000/api";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <div>Hello world !</div>,
+    element: <Dashboard />,
   },
   {
     path: "/login",
@@ -22,6 +24,10 @@ const router = createBrowserRouter([
   {
     path: "/register",
     element: <Register />,
+  },
+  {
+    path: "/logout",
+    element: <Logout />,
   },
 ]);
 
