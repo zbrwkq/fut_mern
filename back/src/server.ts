@@ -1,32 +1,30 @@
-import express from "express";
-import mongoose, { ConnectOptions } from "mongoose";
-// TODO revoir la connexion mongoose
+import express, { Express } from "express";
+import mongoose from "mongoose";
+import userRoutes from "./routes/userRoutes";
+
 const uri =
-  "mongodb+srv://user1:KEplL71VMVTGReQ7@cluster0.l27w5f3.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
-
-const clientOptions: ConnectOptions = {
-  serverApi: { version: "1", strict: true, deprecationErrors: true },
-  dbName: "Test",
-};
-
-const app = express();
-const PORT = process.env.PORT || 3000;
+    "mongodb+srv://username:eSGvrbLyC5gV2EvY@fut.c5bgtvc.mongodb.net/FUT?retryWrites=true&w=majority&appName=FUT";
 
 async function run() {
-  try {
-    await mongoose.connect(uri, clientOptions);
-    await mongoose.connection.db.admin().command({ ping: 1 });
-    console.log(
-      "Pinged your deployment. You successfully connected to MongoDB!"
-    );
-  } catch (error) {
-    console.log(error);
-  }
+    try {
+        await mongoose.connect(uri);
+        await mongoose.connection.db.admin().command({ ping: 1 });
+        console.log(
+            "Pinged your deployment. You successfully connected to MongoDB!"
+        );
+    } catch (err) {
+        console.log(err);
+    }
 }
 run().catch(console.dir);
 
+const app: Express = express();
+
+const PORT = 3000;
+
 app.use(express.json());
+app.use("/api/users", userRoutes);
 
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+    console.log(`Server running on port ${PORT}`);
 });
