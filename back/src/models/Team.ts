@@ -22,4 +22,4 @@ export const TeamSchema = new mongoose.Schema<Team>({
     players: [PlayerSchema],
 })
 
-export const TeamModel = mongoose.model<Team>('Team', TeamSchema)
+export const TeamModel = mongoose.model<Team>('Teame', TeamSchema)
