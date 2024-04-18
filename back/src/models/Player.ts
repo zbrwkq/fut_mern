@@ -25,6 +25,7 @@ export interface Player {
     color: string,
     rating: number,
     ratingAverage: number,
+    available: boolean
 }
 
 export const PlayerSchema = new mongoose.Schema<Player>({
@@ -52,6 +53,7 @@ export const PlayerSchema = new mongoose.Schema<Player>({
     color: String,
     rating: Number,
     ratingAverage: Number,
+    available: Boolean
 })
 
 export const PlayerModel = mongoose.model<Player>('Player', PlayerSchema)
