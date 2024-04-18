@@ -1,29 +1,27 @@
 import express from "express";
 import TeamRoutes from "./routes/TeamRoutes";
-// TODO revoir la connexion mongoose
+import PlayerRoutes from "./routes/PlayerRoutes";
+import EventRoutes from "./routes/EventRoutes";
 
-const mongoose = require('mongoose');
-const uri = "mongodb+srv://username:eSGvrbLyC5gV2EvY@fut.c5bgtvc.mongodb.net/?retryWrites=true&w=majority&appName=FUT";
-
-const clientOptions = { serverApi: { version: '1', strict: true, deprecationErrors: true } };
+const mongoose = require("mongoose");
+const uri =
+    "mongodb+srv://username:eSGvrbLyC5gV2EvY@fut.c5bgtvc.mongodb.net/FUT?retryWrites=true&w=majority&appName=FUT";
 
 async function run() {
-  try {
-    // Create a Mongoose client with a MongoClientOptions object to set the Stable API version
-    await mongoose.connect(uri, clientOptions);
-    await mongoose.connection.db.admin().command({ ping: 1 });
-    console.log("Pinged your deployment. You successfully connected to MongoDB!");
-  } catch (error: any) {
-    console.log(error)
-    await mongoose.disconnect();
-  }
+    try {
+        await mongoose.connect(uri);
+        await mongoose.connection.db.admin().command({ ping: 1 });
+        console.log(
+            "Pinged your deployment. You successfully connected to MongoDB!"
+        );
+    } catch (error: any) {
+        console.log(error);
+    }
 }
 run().catch(console.dir);
 
-
-
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = 3000;
 
 app.use(express.json());
 app.use("/api/team/", TeamRoutes);

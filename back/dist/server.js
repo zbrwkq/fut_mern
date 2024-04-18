@@ -13,18 +13,20 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const mongoose_1 = __importDefault(require("mongoose"));
-const userRoutes_1 = __importDefault(require("./routes/userRoutes"));
+const TeamRoutes_1 = __importDefault(require("./routes/TeamRoutes"));
+const PlayerRoutes_1 = __importDefault(require("./routes/PlayerRoutes"));
+const EventRoutes_1 = __importDefault(require("./routes/EventRoutes"));
+const mongoose = require("mongoose");
 const uri = "mongodb+srv://username:eSGvrbLyC5gV2EvY@fut.c5bgtvc.mongodb.net/FUT?retryWrites=true&w=majority&appName=FUT";
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            yield mongoose_1.default.connect(uri);
-            yield mongoose_1.default.connection.db.admin().command({ ping: 1 });
+            yield mongoose.connect(uri);
+            yield mongoose.connection.db.admin().command({ ping: 1 });
             console.log("Pinged your deployment. You successfully connected to MongoDB!");
         }
-        catch (err) {
-            console.log(err);
+        catch (error) {
+            console.log(error);
         }
     });
 }
@@ -32,7 +34,9 @@ run().catch(console.dir);
 const app = (0, express_1.default)();
 const PORT = 3000;
 app.use(express_1.default.json());
-app.use("/api/users", userRoutes_1.default);
+app.use("/api/team/", TeamRoutes_1.default);
+app.use("/api/player/", PlayerRoutes_1.default);
+app.use("/api/event/", EventRoutes_1.default);
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
