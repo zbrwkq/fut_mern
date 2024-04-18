@@ -3,9 +3,13 @@ import ReactDOM from "react-dom/client";
 import "./index.scss";
 import reportWebVitals from "./reportWebVitals";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { UserProvider } from "./UserProvider";
 import Login from "./login/login";
 import Register from "./register/register";
 import Dashboard from "./routes/dashboard/dashboard";
+import Users from "./users/users";
+axios.defaults.baseURL = "http://127.0.0.1:8000/api";
+
 
 const router = createBrowserRouter([
   {
@@ -24,6 +28,9 @@ const router = createBrowserRouter([
     path: "/dashboard",
     element: <Dashboard />,
   },
+    path: "/users",
+    element: <Users />
+  }
 ]);
 
 const root = ReactDOM.createRoot(
@@ -31,7 +38,9 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <UserProvider>
+      <RouterProvider router={router} />
+    </UserProvider>
   </React.StrictMode>
 );
 

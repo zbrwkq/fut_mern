@@ -1,18 +1,87 @@
-import { Button, Container, Form, FormControlProps } from "react-bootstrap";
-import MainSection from "../component/mainSection";
+import { Button, Container, Form, Spinner } from "react-bootstrap";
+import MainSection from "../component/mainSection/mainSection";
 import { Link } from "react-router-dom";
-import { FormEventHandler, useState } from "react";
+import { useState } from "react";
+import axios from "axios";
 
 export default function Login() {
   const [validated, setValidated] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [form, setForm] = useState({
+    email: {
+      valid: false,
+      error: "",
+    },
+    username: {
+      valid: false,
+      error: "",
+    },
+    password: {
+      valid: false,
+      error: "",
+    },
+    confirmPassword: {
+      valid: false,
+      error: "",
+    },
+    valid: false,
+  });
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    const form = event.currentTarget;
+    const formEl = event.currentTarget;
     event.preventDefault();
     event.stopPropagation();
-    if (form.checkValidity() === false) {
+
+    setValidated(true);
+    console.log(validated && !form.email.valid);
+    if (form.valid) {
+      setLoading(true);
+      const fetchData = async () => {
+        try {
+          const { data } = await axios.get("/register");
+          console.log(data.results);
+          setLoading(false);
+        } catch (error) {
+          setLoading(false);
+          console.error(error);
+        }
+      };
+      fetchData();
     }
   };
+
+  const LoginButton = () => {
+    if (loading) {
+      return (
+        <Button
+          variant="primary"
+          type="submit"
+          className="mt-2 mx-auto d-block"
+          disabled
+        >
+          <Spinner
+            as="span"
+            animation="border"
+            size="sm"
+            role="status"
+            aria-hidden="true"
+          />
+          Chargement...
+        </Button>
+      );
+    } else {
+      return (
+        <Button
+          variant="primary"
+          type="submit"
+          className="mt-2 mx-auto d-block"
+        >
+          Confirmer
+        </Button>
+      );
+    }
+  };
+
   return (
     <MainSection>
       <Container className="position-relative w-100">
@@ -29,7 +98,12 @@ export default function Login() {
               type="text"
               name="email"
               placeholder="Entrez votre email"
+              isValid={validated && form.email.valid}
+              isInvalid={validated && !form.email.valid}
             />
+            <Form.Control.Feedback type="invalid">
+              {form.email.error}
+            </Form.Control.Feedback>
           </Form.Group>
           <Form.Group>
             <Form.Label>Nom d'utilisateur</Form.Label>
@@ -45,21 +119,21 @@ export default function Login() {
               type="text"
               name="password"
               placeholder="Entrez votre mot de passe"
+              required
+              min="6"
+              max="24"
             />
             <Form.Control
               type="text"
-              name="reapeatPassword"
+              name="confirmPassword"
               placeholder="Vérifiez votre mot de passe"
               className="mt-2"
+              required
+              min="6"
+              max="24"
             />
           </Form.Group>
-          <Button
-            variant="primary"
-            type="submit"
-            className="mt-2 mx-auto d-block"
-          >
-            Confirmer
-          </Button>
+          <LoginButton />
         </Form>
         <Link
           to="/login"
