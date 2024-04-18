@@ -3,10 +3,15 @@ import TeamRoutes from "./routes/TeamRoutes";
 import PlayerRoutes from "./routes/PlayerRoutes";
 import EventRoutes from "./routes/EventRoutes";
 import UserRoutes from "./routes/UserRoutes";
+import cors from "cors"; 
 // TODO revoir la connexion mongoose
+
+const app = express();
+app.use(cors());
 
 const mongoose = require('mongoose');
 const uri = "mongodb+srv://username:eSGvrbLyC5gV2EvY@fut.c5bgtvc.mongodb.net/FUT?retryWrites=true&w=majority&appName=FUT";
+
 
 async function run() {
   try {
@@ -17,9 +22,8 @@ async function run() {
     console.log(error)
   }
 }
-run().catch(console.dir);
+run().catch(console.dir); 
 
-const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(express.json());

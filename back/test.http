@@ -3,16 +3,20 @@ POST http://localhost:3000/api/user/register
 Content-Type: application/json
 
 {
-    "email": "test@example.com",
-    "password": "motdepasse123"
-}
+    "name": "Romain",
+    "email": "romain17@gmail.com",
+    "password": "password",
+    "role": {
+        "name": "Administrateur"
+    }
+} 
 
 
 ###
 POST http://localhost:3000/api/user/login
 Content-Type: application/json
 
-{
+{ 
     "email": "test@example.com",
     "password": "motdepasse123"
 }
@@ -44,6 +48,5 @@ Content-Type: application/json
 ###
 DELETE http://127.0.0.1:3000/api/user/6620d6910101788d2c6648df
 
-
-
+###
 GET http://127.0.0.1:3000/api/player?available=true&page=2
