@@ -6,8 +6,9 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Login from "./login/login";
 import Register from "./register/register";
 import axios from "axios";
+import { UserProvider } from "./UserProvider";
 
-axios.defaults.baseURL = "http://localhost:8000";
+axios.defaults.baseURL = "http://127.0.0.1:8000/api";
 
 const router = createBrowserRouter([
   {
@@ -29,7 +30,9 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <UserProvider>
+      <RouterProvider router={router} />
+    </UserProvider>
   </React.StrictMode>
 );
 
