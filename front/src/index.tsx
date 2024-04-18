@@ -5,6 +5,9 @@ import reportWebVitals from "./reportWebVitals";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Login from "./login/login";
 import Register from "./register/register";
+import axios from "axios";
+
+axios.defaults.baseURL = "http://localhost:8000";
 
 const router = createBrowserRouter([
   {
