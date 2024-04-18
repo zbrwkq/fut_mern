@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-export interface User {
+export default interface User {
     id: number,
     name: string,
     email: string,
@@ -12,4 +12,4 @@ export const UserSchema = new mongoose.Schema<User>({
     password: String
 })
 
-export const UserModel = mongoose.model<User>('User', UserSchema)
+export const UserModel = mongoose.model<User>('users', UserSchema)

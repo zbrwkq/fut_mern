@@ -1,7 +1,29 @@
+###
+POST http://localhost:3000/api/users/register
+Content-Type: application/json
+
+{
+    "email": "test@example.com",
+    "password": "motdepasse123"
+}
+
+
+###
+POST http://localhost:3000/api/users/login
+Content-Type: application/json
+
+{
+    "email": "test@example.com",
+    "password": "motdepasse123"
+}
+
+###
 GET http://127.0.0.1:3000/api/users/
 
+###
 GET http://127.0.0.1:3000/api/users/6620d6910101788d2c6648df
 
+###
 POST http://127.0.0.1:3000/api/users/
 Content-Type: application/json
 
@@ -11,6 +33,7 @@ Content-Type: application/json
     "password": "password"
 }
 
+###
 PUT http://127.0.0.1:3000/api/users/6620d6910101788d2c6648df
 Content-Type: application/json
 
@@ -18,4 +41,5 @@ Content-Type: application/json
     "password": "motdepasse"
 }
 
+###
 DELETE http://127.0.0.1:3000/api/users/6620d6910101788d2c6648df
