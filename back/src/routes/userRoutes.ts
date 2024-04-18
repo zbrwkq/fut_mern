@@ -1,10 +1,10 @@
 import { Router, Request, Response } from "express";
-import Users, { UserSchema } from "../models/Users";
+import { User, UserSchema } from "../models/Users";
 import mongoose from "mongoose";
 
 const router = Router();
 
-const userModel = mongoose.model<Users>("users", UserSchema);
+const userModel = mongoose.model<User>("users", UserSchema);
 
 router.post("/login", async (req: Request, res: Response) => {
     try {

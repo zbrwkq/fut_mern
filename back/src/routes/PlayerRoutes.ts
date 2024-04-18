@@ -62,11 +62,7 @@ router.put("/:id", (req: Request, res: Response) => {
             try {
                 const result = await PlayerModel.findByIdAndUpdate(
                     id,
-                    {
-                        name: req.body.name,
-                        birthDate: req.body.birthDate,
-                        biography: req.body.biography,
-                    },
+                    req.body,
                     {
                         returnDocument: "after",
                     }
