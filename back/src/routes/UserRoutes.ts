@@ -1,6 +1,7 @@
 import { Router, Request, Response } from "express";
 import { User, UserSchema } from "../models/User";
 import mongoose from "mongoose";
+import { RoleModel } from "../models/Role";
 
 const router = Router();
 
@@ -29,33 +30,30 @@ router.post("/login", async (req: Request, res: Response) => {
 
 router.post("/register", async (req: Request, res: Response) => {
     try {
-        const { email, password } = req.body;
+        const { email, password, role } = req.body;
 
         const existingUser = await UserModel.findOne({ email });
 
         if (existingUser) {
-            return res
-                .status(400)
-                .json({ message: "Cet utilisateur existe déjà." });
-        } 
+            return res.status(400).json({ message: "Cet utilisateur existe déjà." });
+        }
 
-        const newUser = new UserModel({ email, password });
+        let existingRole = await RoleModel.findOne({ name: role.name });
+
+        if (!existingRole) {
+            existingRole = new RoleModel(role);
+            await existingRole.save();
+        }
+
+        const newUser = new UserModel({ email, password, role: existingRole });
         await newUser.save();
 
-        const userWithoutPassword = {
-            email: newUser.email,
-            _id: newUser._id,
-        };
-
-        res.status(201).json({
-            message: "Inscription réussie.",
-            user: userWithoutPassword,
-        });
+        res.status(201).json({ message: "Inscription réussie.", user: newUser });
     } catch (error) {
         console.error("Erreur lors de l'inscription :", error);
         res.status(500).json({ message: "Erreur lors de l'inscription." });
     }
-})
+});
 
 router.get('/', (req: Request, res: Response) => {
     const query = async () => {
