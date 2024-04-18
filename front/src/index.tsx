@@ -3,10 +3,10 @@ import ReactDOM from "react-dom/client";
 import "./index.scss";
 import reportWebVitals from "./reportWebVitals";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { UserProvider } from "./UserProvider";
 import Login from "./login/login";
 import Register from "./register/register";
-import axios from "axios";
-import { UserProvider } from "./UserProvider";
+import Users from "./users/users";
 
 axios.defaults.baseURL = "http://127.0.0.1:8000/api";
 
@@ -23,6 +23,10 @@ const router = createBrowserRouter([
     path: "/register",
     element: <Register />,
   },
+  {
+    path: "/users",
+    element: <Users />
+  }
 ]);
 
 const root = ReactDOM.createRoot(
