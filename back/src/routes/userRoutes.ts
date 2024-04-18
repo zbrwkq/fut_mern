@@ -1,5 +1,5 @@
 import { Router, Request, Response } from "express";
-import { User, UserSchema } from "../models/Users";
+import User, { UserSchema } from "../models/Users";
 import mongoose from "mongoose";
 
 const router = Router();

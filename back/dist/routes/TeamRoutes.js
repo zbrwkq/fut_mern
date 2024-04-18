@@ -72,11 +72,7 @@ router.put("/:id", (req, res) => {
     else {
         const query = () => __awaiter(void 0, void 0, void 0, function* () {
             try {
-                const result = yield Team_1.TeamModel.findByIdAndUpdate(id, {
-                    name: req.body.name,
-                    birthDate: req.body.birthDate,
-                    biography: req.body.biography,
-                }, {
+                const result = yield Team_1.TeamModel.findByIdAndUpdate(id, req.body, {
                     returnDocument: "after",
                 });
                 if (!result) {
