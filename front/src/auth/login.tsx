@@ -41,7 +41,7 @@ export default function Login() {
         navigate("/");
       } catch (error: any) {
         setLoading(false);
-        console.log(error);
+        console.error(error);
       }
     };
     fetchData();
