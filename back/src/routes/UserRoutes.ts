@@ -55,77 +55,76 @@ router.post("/register", async (req: Request, res: Response) => {
         console.error("Erreur lors de l'inscription :", error);
         res.status(500).json({ message: "Erreur lors de l'inscription." });
     }
+})
 
-    router.get('/', (req: Request, res: Response) => {
-        const query = async () => {
-            try {
-                const users = await UserModel.find({});
-                res.status(200).send(users)
-            } catch(error) {
-                console.log(error);
-                res.status(500).send("Error when getting users")
-            }
+router.get('/', (req: Request, res: Response) => {
+    const query = async () => {
+        try {
+            const users = await UserModel.find({});
+            res.status(200).send(users)
+        } catch(error) {
+            console.log(error);
+            res.status(500).send("Error when getting users")
         }
-        query()
-    })
+    }
+    query()
+})
     
-    router.get('/:id', (req: Request, res: Response) => {
-        const query = async () => {
-            try {
-                const user = await UserModel.findById(req.params.id);
-                res.status(200).send(user)
-            } catch(error) {
-                console.log(error);
-                res.status(500).send("Error when getting user")
-            }
+router.get('/:id', (req: Request, res: Response) => {
+    const query = async () => {
+        try {
+            const user = await UserModel.findById(req.params.id);
+            res.status(200).send(user)
+        } catch(error) {
+            console.log(error);
+            res.status(500).send("Error when getting user")
         }
-        query()
-    })
+    }
+    query()
+})
     
-    router.post('/', (req: Request, res: Response) => {
-        const query = async () => {
-            try {
-                await UserModel.create(req.body);
-                res.status(200).send("User created")
-            } catch(error) {
-                console.log(error);
-                res.status(500).send("Error when inserting user")
-            }
+router.post('/', (req: Request, res: Response) => {
+    const query = async () => {
+        try {
+            await UserModel.create(req.body);
+            res.status(200).send("User created")
+        } catch(error) {
+            console.log(error);
+            res.status(500).send("Error when inserting user")
         }
-        query()
-    })
+    }
+    query()
+})
     
-    router.put('/:id', (req: Request, res: Response) => {
-        const query = async () => {
-            try {
-                const user = await UserModel.findByIdAndUpdate(req.params.id, req.body);
-                if (!user) {
-                    res.status(404).send("User not found")
-                }
-                res.status(200).send("User updated")
-            } catch(error) {
-                console.log(error);
-                res.status(500).send("Error when updating user")
+router.put('/:id', (req: Request, res: Response) => {
+    const query = async () => {
+        try {
+            const user = await UserModel.findByIdAndUpdate(req.params.id, req.body);
+            if (!user) {
+                res.status(404).send("User not found")
             }
+            res.status(200).send("User updated")
+        } catch(error) {
+            console.log(error);
+            res.status(500).send("Error when updating user")
         }
-        query()
-    })
+    }
+    query()
+})
     
-    router.delete('/:id', (req: Request, res: Response) => {
-        const query = async () => {
-            try {
-                const user = await UserModel.findByIdAndDelete(req.params.id);
-                if (!user) {
-                    res.status(404).send("User not found")
-                }
-                res.status(200).send("User deleted")
-            } catch(error) {
-                console.log(error);
+router.delete('/:id', (req: Request, res: Response) => {
+    const query = async () => {
+        try {
+            const user = await UserModel.findByIdAndDelete(req.params.id);
+            if (!user) {
+                res.status(404).send("User not found")
             }
+            res.status(200).send("User deleted")
+        } catch(error) {
+            console.log(error);
         }
-        query()
-    })
-});
-
+    }
+    query()
+})
 
 export default router;
