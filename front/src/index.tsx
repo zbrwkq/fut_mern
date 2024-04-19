@@ -7,6 +7,8 @@ import { UserProvider } from "./UserProvider";
 import Login from "./login/login";
 import Register from "./register/register";
 import Users from "./users/users";
+import Players from "./players/players";
+import axios from "axios";
 
 axios.defaults.baseURL = "http://127.0.0.1:8000/api";
 
@@ -26,6 +28,10 @@ const router = createBrowserRouter([
   {
     path: "/users",
     element: <Users />
+  },
+  {
+    path: "/players",
+    element: <Players />
   }
 ]);
 

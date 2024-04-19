@@ -30,5 +30,6 @@ exports.PlayerSchema = new mongoose_1.default.Schema({
     color: String,
     rating: Number,
     ratingAverage: Number,
+    available: Boolean
 });
 exports.PlayerModel = mongoose_1.default.model('Player', exports.PlayerSchema);

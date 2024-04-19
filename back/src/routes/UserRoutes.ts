@@ -30,7 +30,7 @@ router.post("/login", async (req: Request, res: Response) => {
 
 router.post("/register", async (req: Request, res: Response) => {
     try {
-        const { email, password, role } = req.body;
+        const { name, email, password } = req.body;
 
         const existingUser = await UserModel.findOne({ email });
 
@@ -38,14 +38,15 @@ router.post("/register", async (req: Request, res: Response) => {
             return res.status(400).json({ message: "Cet utilisateur existe déjà." });
         }
 
-        let existingRole = await RoleModel.findOne({ name: role.name });
+        // Trouver ou créer le rôle "Utilisateur"
+        let userRole = await RoleModel.findOne({ name: "Utilisateur" });
 
-        if (!existingRole) {
-            existingRole = new RoleModel(role);
-            await existingRole.save();
+        if (!userRole) {
+            userRole = await RoleModel.create({ name: "Utilisateur" });
         }
 
-        const newUser = new UserModel({ email, password, role: existingRole });
+        // Créer le nouvel utilisateur avec le rôle "Utilisateur"
+        const newUser = new UserModel({ name, email, password, role: userRole });
         await newUser.save();
 
         res.status(201).json({ message: "Inscription réussie.", user: newUser });
@@ -76,19 +77,6 @@ router.get('/:id', (req: Request, res: Response) => {
         } catch(error) {
             console.log(error);
             res.status(500).send("Error when getting user")
-        }
-    }
-    query()
-})
-    
-router.post('/', (req: Request, res: Response) => {
-    const query = async () => {
-        try {
-            await UserModel.create(req.body);
-            res.status(200).send("User created")
-        } catch(error) {
-            console.log(error);
-            res.status(500).send("Error when inserting user")
         }
     }
     query()

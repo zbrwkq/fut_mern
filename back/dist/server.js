@@ -17,6 +17,7 @@ const TeamRoutes_1 = __importDefault(require("./routes/TeamRoutes"));
 const PlayerRoutes_1 = __importDefault(require("./routes/PlayerRoutes"));
 const EventRoutes_1 = __importDefault(require("./routes/EventRoutes"));
 const UserRoutes_1 = __importDefault(require("./routes/UserRoutes"));
+const ClubRoutes_1 = __importDefault(require("./routes/ClubRoutes"));
 const cors_1 = __importDefault(require("cors"));
 // TODO revoir la connexion mongoose
 const app = (0, express_1.default)();
@@ -41,7 +42,8 @@ app.use(express_1.default.json());
 app.use("/api/team/", TeamRoutes_1.default);
 app.use("/api/player/", PlayerRoutes_1.default);
 app.use("/api/event/", EventRoutes_1.default);
-app.use("/api/users", UserRoutes_1.default);
+app.use("/api/user/", UserRoutes_1.default);
+app.use("/api/club/", ClubRoutes_1.default);
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });

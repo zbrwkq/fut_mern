@@ -3,6 +3,7 @@ import TeamRoutes from "./routes/TeamRoutes";
 import PlayerRoutes from "./routes/PlayerRoutes";
 import EventRoutes from "./routes/EventRoutes";
 import UserRoutes from "./routes/UserRoutes";
+import ClubRoutes from "./routes/ClubRoutes";
 import cors from "cors"; 
 // TODO revoir la connexion mongoose
 
@@ -31,6 +32,7 @@ app.use("/api/team/", TeamRoutes);
 app.use("/api/player/", PlayerRoutes);
 app.use("/api/event/", EventRoutes);
 app.use("/api/user/", UserRoutes);
+app.use("/api/club/", ClubRoutes);
 
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);

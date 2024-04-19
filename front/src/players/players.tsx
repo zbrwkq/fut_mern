@@ -5,74 +5,85 @@ import axios from "axios";
 import { useUser } from "../UserProvider";
 import { Navigate } from "react-router-dom";
 
-interface Role {
-    name: string;
-}
-
-interface User {
+interface Player {
     _id: string;
+    id: number;
     name: string;
-    email: string;
-    role: Role;
+    gender: string;
+    position: string;
+    rating: number;
+    club: number;
+    clubName: string;
 }
 
-export default function Users() {
-    const [users, setUsers] = useState<User[]>([]);
-    const [selectedUser, setSelectedUser] = useState<User | null>(null);
-    const [editedUser, setEditedUser] = useState<User | null>(null);
+export default function Players() {
+    const [players, setPlayers] = useState<Player[]>([]);
+    const [selectedPlayer, setSelectedPlayer] = useState<Player | null>(null);
+    const [editedPlayer, setEditedPlayer] = useState<Player | null>(null);
+    const [currentPage, setCurrentPage] = useState(1);
     const { user, setUser } = useUser();
 
     useEffect(() => {
-        const fetchUsers = async () => {
+        const fetchPlayers = async () => {
             try {
-                const response = await axios.get<User[]>(
-                    "http://localhost:3000/api/user"
+                const response = await axios.get<Player[]>(
+                    `http://localhost:3000/api/player?page=${currentPage}`
                 );
-                setUsers(response.data);
+                const playersWithClubNames = await Promise.all(
+                    response.data.map(async (player) => {
+                        const clubResponse = await axios.get(
+                            `http://localhost:3000/api/club/${player.club}`
+                        );
+                        const clubName = clubResponse.data.name;
+                        return { ...player, clubName };
+                    })
+                );
+                setPlayers(playersWithClubNames);
             } catch (error) {
                 console.log(error);
             }
         };
-        fetchUsers();
-    }, []);
 
-    const handleDeleteUser = async (userId: string) => {
+        fetchPlayers();
+    }, [currentPage]);
+
+    const handleDeletePlayer = async (playerId: string) => {
         try {
-            await axios.delete(`http://localhost:3000/api/user/${userId}`);
-            setUsers(users.filter((user) => user._id !== userId));
+            await axios.delete(`http://localhost:3000/api/player/${playerId}`);
+            setPlayers(players.filter((player) => player._id !== playerId));
         } catch (error) {
             console.log(error);
         }
     };
 
-    const handleEditUser = (user: User) => {
-        setSelectedUser(user);
-        setEditedUser({ ...user });
+    const handleEditPlayer = (player: Player) => {
+        setSelectedPlayer(player);
+        setEditedPlayer({ ...player });
     };
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (editedUser) {
-            setEditedUser({
-                ...editedUser,
+        if (editedPlayer) {
+            setEditedPlayer({
+                ...editedPlayer,
                 [e.target.name]: e.target.value,
             });
         }
     };
 
     const handleSubmit = async () => {
-        if (editedUser) {
+        if (editedPlayer) {
             try {
                 await axios.put(
-                    `http://localhost:3000/api/user/${editedUser._id}`,
-                    editedUser
+                    `http://localhost:3000/api/player/${editedPlayer._id}`,
+                    editedPlayer
                 );
-                setUsers(
-                    users.map((user) =>
-                        user._id === editedUser._id ? editedUser : user
+                setPlayers(
+                    players.map((player) =>
+                        player._id === editedPlayer._id ? editedPlayer : player
                     )
                 );
-                setSelectedUser(null);
-                setEditedUser(null);
+                setSelectedPlayer(null);
+                setEditedPlayer(null);
             } catch (error) {
                 console.log(error);
             }
@@ -87,34 +98,43 @@ export default function Users() {
         <MainSection>
             <Container className="position-relative w-100">
                 <h1 className="text-center d-block">Football club manager</h1>
-                <h2>Utilisateurs</h2>
+                <h2>Joueurs</h2>
                 <div className="d-flex flex-wrap">
-                    {users.map((user, index) => (
+                    {players.map((player, index) => (
                         <Card key={index} className="col-4 mb-3">
                             <Card.Body>
                                 <ul>
                                     <li>
-                                        <strong>Nom:</strong> {user.name}
+                                        <strong>Nom:</strong> {player.name}
                                     </li>
                                     <li>
-                                        <strong>Email:</strong> {user.email}
+                                        <strong>Genre:</strong> {player.gender}
                                     </li>
                                     <li>
-                                        <strong>Rôle:</strong> {user.role?.name}
+                                        <strong>Club:</strong> {player.clubName}
+                                    </li>
+                                    <li>
+                                        <strong>Poste:</strong>{" "}
+                                        {player.position}
+                                    </li>
+                                    <li>
+                                        <strong>Note:</strong> {player.rating}
                                     </li>
                                     <li>
                                         <strong>Actions:</strong>
                                         <Button
                                             variant="danger"
                                             onClick={() =>
-                                                handleDeleteUser(user._id)
+                                                handleDeletePlayer(player._id)
                                             }
                                         >
                                             Supprimer
                                         </Button>
                                         <Button
                                             variant="primary"
-                                            onClick={() => handleEditUser(user)}
+                                            onClick={() =>
+                                                handleEditPlayer(player)
+                                            }
                                         >
                                             Modifier
                                         </Button>
@@ -124,7 +144,7 @@ export default function Users() {
                         </Card>
                     ))}
                 </div>
-                {selectedUser && (
+                {selectedPlayer && (
                     <Card>
                         <Card.Body>
                             <Form>
@@ -133,16 +153,7 @@ export default function Users() {
                                     <Form.Control
                                         type="text"
                                         name="name"
-                                        value={editedUser?.name || ""}
-                                        onChange={handleInputChange}
-                                    />
-                                </Form.Group>
-                                <Form.Group controlId="formEmail">
-                                    <Form.Label>Email</Form.Label>
-                                    <Form.Control
-                                        type="email"
-                                        name="email"
-                                        value={editedUser?.email || ""}
+                                        value={editedPlayer?.name || ""}
                                         onChange={handleInputChange}
                                     />
                                 </Form.Group>
@@ -156,6 +167,20 @@ export default function Users() {
                         </Card.Body>
                     </Card>
                 )}
+                <div className="d-flex justify-content-center mt-3">
+                    <Button
+                        disabled={currentPage === 1}
+                        onClick={() => setCurrentPage((prev) => prev - 1)}
+                    >
+                        Précédent
+                    </Button>
+                    <Button
+                        className="mx-2"
+                        onClick={() => setCurrentPage((prev) => prev + 1)}
+                    >
+                        Suivant
+                    </Button>
+                </div>
             </Container>
         </MainSection>
     );

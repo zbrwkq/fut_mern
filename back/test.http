@@ -1,14 +1,17 @@
 ###
+GET http://localhost:3000/api/club
+
+###
+GET http://localhost:3000/api/club/1
+
+###
 POST http://localhost:3000/api/user/register
 Content-Type: application/json
 
 {
     "name": "Romain",
-    "email": "romain17@gmail.com",
-    "password": "password",
-    "role": {
-        "name": "Administrateur"
-    }
+    "email": "romain19@gmail.com",
+    "password": "password"
 } 
 
 
@@ -26,16 +29,6 @@ GET http://127.0.0.1:3000/api/user/
 
 ###
 GET http://127.0.0.1:3000/api/user/6620d6910101788d2c6648df
-
-###
-POST http://127.0.0.1:3000/api/user/
-Content-Type: application/json
-
-{
-    "name": "Jackie Chan",
-    "email": "jackie@chan.fr",
-    "password": "password"
-}
 
 ###
 PUT http://127.0.0.1:3000/api/user/6620d6910101788d2c6648df

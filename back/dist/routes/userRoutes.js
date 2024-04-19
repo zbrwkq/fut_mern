@@ -37,17 +37,18 @@ router.post("/login", (req, res) => __awaiter(void 0, void 0, void 0, function* 
 }));
 router.post("/register", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { email, password, role } = req.body;
+        const { name, email, password } = req.body;
         const existingUser = yield UserModel.findOne({ email });
         if (existingUser) {
             return res.status(400).json({ message: "Cet utilisateur existe déjà." });
         }
-        let existingRole = yield Role_1.RoleModel.findOne({ name: role.name });
-        if (!existingRole) {
-            existingRole = new Role_1.RoleModel(role);
-            yield existingRole.save();
+        // Trouver ou créer le rôle "Utilisateur"
+        let userRole = yield Role_1.RoleModel.findOne({ name: "Utilisateur" });
+        if (!userRole) {
+            userRole = yield Role_1.RoleModel.create({ name: "Utilisateur" });
         }
-        const newUser = new UserModel({ email, password, role: existingRole });
+        // Créer le nouvel utilisateur avec le rôle "Utilisateur"
+        const newUser = new UserModel({ name, email, password, role: userRole });
         yield newUser.save();
         res.status(201).json({ message: "Inscription réussie.", user: newUser });
     }
@@ -78,19 +79,6 @@ router.get('/:id', (req, res) => {
         catch (error) {
             console.log(error);
             res.status(500).send("Error when getting user");
-        }
-    });
-    query();
-});
-router.post('/', (req, res) => {
-    const query = () => __awaiter(void 0, void 0, void 0, function* () {
-        try {
-            yield UserModel.create(req.body);
-            res.status(200).send("User created");
-        }
-        catch (error) {
-            console.log(error);
-            res.status(500).send("Error when inserting user");
         }
     });
     query();
