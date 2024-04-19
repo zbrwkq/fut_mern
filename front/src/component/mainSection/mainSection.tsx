@@ -7,10 +7,7 @@ export default function MainSection({
 }) {
   return (
     <main>
-      <section>
-        {children}
-        <footer>footer</footer>
-      </section>
+      <section>{children}</section>
     </main>
   );
 }
