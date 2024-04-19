@@ -27,12 +27,12 @@ export default function Players() {
         const fetchPlayers = async () => {
             try {
                 const response = await axios.get<Player[]>(
-                    `http://localhost:3000/api/player?page=${currentPage}`
+                    `http://localhost:8000/api/player?page=${currentPage}`
                 );
                 const playersWithClubNames = await Promise.all(
                     response.data.map(async (player) => {
                         const clubResponse = await axios.get(
-                            `http://localhost:3000/api/club/${player.club}`
+                            `http://localhost:8000/api/club/${player.club}`
                         );
                         const clubName = clubResponse.data.name;
                         return { ...player, clubName };
@@ -49,7 +49,7 @@ export default function Players() {
 
     const handleDeletePlayer = async (playerId: string) => {
         try {
-            await axios.delete(`http://localhost:3000/api/player/${playerId}`);
+            await axios.delete(`http://localhost:8000/api/player/${playerId}`);
             setPlayers(players.filter((player) => player._id !== playerId));
         } catch (error) {
             console.log(error);
@@ -74,7 +74,7 @@ export default function Players() {
         if (editedPlayer) {
             try {
                 await axios.put(
-                    `http://localhost:3000/api/player/${editedPlayer._id}`,
+                    `http://localhost:8000/api/player/${editedPlayer._id}`,
                     editedPlayer
                 );
                 setPlayers(
