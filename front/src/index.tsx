@@ -11,6 +11,7 @@ import Users from "./users/users";
 import Players from "./players/players";
 
 import Market from "./routes/market";
+import Dashboard from "./dashboard/dashboard";
 import axios from "axios";
 
 axios.defaults.baseURL = "http://127.0.0.1:8000/api";
@@ -44,6 +45,10 @@ const router = createBrowserRouter([
     path: "/market",
     element: <Market />,
   },
+  {
+    path: "/dashboard",
+    element: <Dashboard />
+  }
 ]);
 
 const root = ReactDOM.createRoot(
