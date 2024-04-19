@@ -73,9 +73,9 @@ export default function Users() {
     }
   };
 
-  // if (!user || user.role.name !== "Administrateur") {
-  //     return <Navigate to="/login" />;
-  // }
+  if (!user || user.role.name !== "Administrateur") {
+    return <Navigate to="/login" />;
+  }
 
   return (
     <MainSection>
