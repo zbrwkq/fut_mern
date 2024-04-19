@@ -42,7 +42,7 @@ export default function Login() {
         navigate("/");
       } catch (error: any) {
         setLoading(false);
-        if (error.response.status === 404) {
+        if (error.response && error.response.status === 404) {
           setError("Email ou mot de passe incorrect");
         }
         console.error(error);
