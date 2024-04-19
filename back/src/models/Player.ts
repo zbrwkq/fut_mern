@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 
 export interface Player {
+    _id: string
     id: number,
     firstName: string,
     lastName: string,
@@ -29,6 +30,7 @@ export interface Player {
 }
 
 export const PlayerSchema = new mongoose.Schema<Player>({
+    _id: String,
     id: Number,
     firstName: String,
     lastName: String,

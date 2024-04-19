@@ -7,12 +7,14 @@ import { UserProvider } from "./UserProvider";
 import Login from "./auth/login";
 import Register from "./auth/register";
 import Logout from "./auth/logout";
-import Users from "./users/users";
-import Players from "./players/players";
-
+import Users from "./admin/users";
+import Players from "./admin/players";
 import Market from "./routes/market";
 import Dashboard from "./dashboard/dashboard";
 import axios from "axios";
+
+import Market from "./market/market";
+import Admin from "./admin/admin";
 
 axios.defaults.baseURL = "http://127.0.0.1:8000/api";
 
@@ -34,11 +36,15 @@ const router = createBrowserRouter([
     element: <Logout />,
   },
   {
-    path: "/users",
+    path: "/admin",
+    element: <Admin />,
+  },
+  {
+    path: "/admin/users",
     element: <Users />,
   },
   {
-    path: "/players",
+    path: "/admin/players",
     element: <Players />,
   },
   {
