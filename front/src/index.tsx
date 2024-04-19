@@ -10,8 +10,9 @@ import Logout from "./auth/logout";
 import Users from "./admin/users";
 import Players from "./admin/players";
 
-import Market from "./routes/market";
 import axios from "axios";
+
+import Market from "./market/market";
 import Admin from "./admin/admin";
 
 axios.defaults.baseURL = "http://127.0.0.1:8000/api";
