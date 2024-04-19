@@ -9,6 +9,8 @@ import Register from "./auth/register";
 import Logout from "./auth/logout";
 import Users from "./users/users";
 import Players from "./players/players";
+
+import Market from "./routes/market";
 import axios from "axios";
 
 axios.defaults.baseURL = "http://127.0.0.1:8000/api";
@@ -27,16 +29,16 @@ const router = createBrowserRouter([
     element: <Register />,
   },
   {
-    path: "/logout",
-    element: <Logout />,
-  },
-  {
     path: "/users",
     element: <Users />
   },
   {
     path: "/players",
     element: <Players />
+  },
+  {
+    path: "/market",
+    element: <Market/>
   }
 ]);
 
