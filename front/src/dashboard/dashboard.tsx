@@ -126,9 +126,6 @@ export default function Dashboard() {
                           <li>
                             <strong>Note:</strong> {player.rating}
                           </li>
-                          <li>
-                            <strong>Pays:</strong> {player.nation}
-                          </li>
                         </ul>
                       </Card.Body>
                     </Card>
