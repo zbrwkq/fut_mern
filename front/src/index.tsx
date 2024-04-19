@@ -29,17 +29,21 @@ const router = createBrowserRouter([
     element: <Register />,
   },
   {
+    path: "/logout",
+    element: <Logout />,
+  },
+  {
     path: "/users",
-    element: <Users />
+    element: <Users />,
   },
   {
     path: "/players",
-    element: <Players />
+    element: <Players />,
   },
   {
     path: "/market",
-    element: <Market/>
-  }
+    element: <Market />,
+  },
 ]);
 
 const root = ReactDOM.createRoot(
