@@ -56,7 +56,7 @@ router.post("/register", (req, res) => __awaiter(void 0, void 0, void 0, functio
         res.status(500).json({ message: "Erreur lors de l'inscription." });
     }
 }));
-router.get('/', (req, res) => {
+router.get("/", (req, res) => {
     const query = () => __awaiter(void 0, void 0, void 0, function* () {
         try {
             const users = yield UserModel.find({});
@@ -69,7 +69,7 @@ router.get('/', (req, res) => {
     });
     query();
 });
-router.get('/:id', (req, res) => {
+router.get("/:id", (req, res) => {
     const query = () => __awaiter(void 0, void 0, void 0, function* () {
         try {
             const user = yield UserModel.findById(req.params.id);
@@ -82,7 +82,7 @@ router.get('/:id', (req, res) => {
     });
     query();
 });
-router.post('/', (req, res) => {
+router.post("/", (req, res) => {
     const query = () => __awaiter(void 0, void 0, void 0, function* () {
         try {
             yield UserModel.create(req.body);
@@ -95,7 +95,7 @@ router.post('/', (req, res) => {
     });
     query();
 });
-router.put('/:id', (req, res) => {
+router.put("/:id", (req, res) => {
     const query = () => __awaiter(void 0, void 0, void 0, function* () {
         try {
             const user = yield UserModel.findByIdAndUpdate(req.params.id, req.body);
@@ -111,7 +111,7 @@ router.put('/:id', (req, res) => {
     });
     query();
 });
-router.delete('/:id', (req, res) => {
+router.delete("/:id", (req, res) => {
     const query = () => __awaiter(void 0, void 0, void 0, function* () {
         try {
             const user = yield UserModel.findByIdAndDelete(req.params.id);
