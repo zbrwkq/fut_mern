@@ -3,7 +3,7 @@ import { Button, Card, Container, Form } from "react-bootstrap";
 import MainSection from "../component/mainSection/mainSection";
 import axios from "axios";
 import { useUser } from "../UserProvider";
-import { Navigate } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 
 interface Role {
   name: string;
@@ -36,7 +36,7 @@ export default function Users() {
 
   const handleDeleteUser = async (userId: string) => {
     try {
-      await axios.delete(`/users/${userId}`);
+      await axios.delete(`/user/${userId}`);
       setUsers(users.filter((user) => user._id !== userId));
     } catch (error) {
       console.log(error);
@@ -73,16 +73,17 @@ export default function Users() {
     }
   };
 
-  // if (!user || user.role.name !== "Administrateur") {
-  //     return <Navigate to="/login" />;
-  // }
+  if (!user || user.role.name !== "Administrateur") {
+    return <Navigate to="/login" />;
+  }
 
   return (
     <MainSection>
       <Container className="position-relative w-100">
         <h1 className="text-center d-block">Football club manager</h1>
         <h2>Utilisateurs</h2>
-        <div className="d-flex flex-wrap">
+        <Link to="/admin">Retour</Link>
+        <div className="d-flex flex-wrap my-3">
           {users.map((user, index) => (
             <Card key={index} className="col-4 mb-3">
               <Card.Body>
@@ -126,6 +127,7 @@ export default function Users() {
                     type="text"
                     name="name"
                     value={editedUser?.name || ""}
+                    onChange={handleInputChange}
                   />
                 </Form.Group>
                 <Form.Group controlId="formEmail">
@@ -134,6 +136,7 @@ export default function Users() {
                     type="email"
                     name="email"
                     value={editedUser?.email || ""}
+                    onChange={handleInputChange}
                   />
                 </Form.Group>
                 <Button variant="primary" onClick={handleSubmit}>

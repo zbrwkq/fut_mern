@@ -3,7 +3,7 @@ import { Button, Card, Container, Form } from "react-bootstrap";
 import MainSection from "../component/mainSection/mainSection";
 import axios from "axios";
 import { useUser } from "../UserProvider";
-import { Navigate } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 
 interface Player {
   _id: string;
@@ -54,6 +54,21 @@ export default function Players() {
     }
   };
 
+  const handleEditPlayer = (player: Player) => {
+    setSelectedPlayer(player);
+    setEditedPlayer({ ...player });
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    if (editedPlayer) {
+      setEditedPlayer({
+        ...editedPlayer,
+        [name]: value,
+      });
+    }
+  };
+
   const handleSubmit = async () => {
     if (editedPlayer) {
       try {
@@ -80,7 +95,8 @@ export default function Players() {
       <Container className="position-relative w-100">
         <h1 className="text-center d-block">Football club manager</h1>
         <h2>Joueurs</h2>
-        <div className="d-flex flex-wrap">
+        <Link to="/admin">Retour</Link>
+        <div className="d-flex flex-wrap my-3">
           {players.map((player, index) => (
             <Card key={index} className="col-4 mb-3">
               <Card.Body>
@@ -110,7 +126,7 @@ export default function Players() {
                     </Button>
                     <Button
                       variant="primary"
-                      // onClick={() => handleEditPlayer(player)}
+                      onClick={() => handleEditPlayer(player)}
                     >
                       Modifier
                     </Button>
@@ -130,9 +146,10 @@ export default function Players() {
                     type="text"
                     name="name"
                     value={editedPlayer?.name || ""}
-                    // onChange={handleInputChange}
+                    onChange={handleInputChange}
                   />
                 </Form.Group>
+                {/* Ajoutez d'autres champs de formulaire ici pour d'autres propriétés du joueur */}
                 <Button variant="primary" onClick={handleSubmit}>
                   Enregistrer
                 </Button>
