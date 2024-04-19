@@ -19,7 +19,7 @@ axios.defaults.baseURL = "http://127.0.0.1:8000/api";
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <div>Hello world !</div>,
+    element: <Dashboard />,
   },
   {
     path: "/login",
@@ -44,10 +44,6 @@ const router = createBrowserRouter([
   {
     path: "/market",
     element: <Market />,
-  },
-  {
-    path: "/dashboard",
-    element: <Dashboard />
   }
 ]);
 

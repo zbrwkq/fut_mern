@@ -2,7 +2,6 @@ import mongoose from 'mongoose';
 import { Player, PlayerSchema } from './Player';
 
 export interface Team {
-    id: number,
     name: string,
     victory: number,
     defeat: number,
