@@ -48,7 +48,7 @@ export default function Login() {
     setLoading(true);
     const fetchData = async () => {
       try {
-        const { data } = await axios.post("/users/register", {
+        const { data } = await axios.post("/user/register", {
           email: form.email.value,
           password: form.password.value,
           name: form.name.value,
@@ -57,7 +57,8 @@ export default function Login() {
         navigate("/");
       } catch (error: any) {
         setLoading(false);
-        if (error.response.status === 400) {
+        console.error(error);
+        if (error.response && error.response.status === 400) {
           setForm({
             ...form,
             email: {
@@ -67,7 +68,6 @@ export default function Login() {
             },
           });
         }
-        console.error(error);
       }
     };
     fetchData();
