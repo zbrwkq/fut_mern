@@ -17,14 +17,10 @@ export default function Market() {
         getNextPlayers(page);
         updatePlayersCountAndMaxPage();
     }, [])
-
     
     if (!user) {
         return <Navigate to="/login" />;
     }
-
-    console.log(user)
-
 
     async function updatePlayersCountAndMaxPage() {
         try {
@@ -60,7 +56,6 @@ export default function Market() {
 
             // requete pour récupérer l'id de la team avec l'id utilisateur
             const userData = await axios.get(`/user/${user?._id}`);
-            console.log(userData)
             const teamId = parseInt(userData.data.team.id);
 
             // requete pour récupérer les joueurs de la team
