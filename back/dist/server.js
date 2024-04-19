@@ -19,10 +19,9 @@ const EventRoutes_1 = __importDefault(require("./routes/EventRoutes"));
 const UserRoutes_1 = __importDefault(require("./routes/UserRoutes"));
 const ClubRoutes_1 = __importDefault(require("./routes/ClubRoutes"));
 const cors_1 = __importDefault(require("cors"));
-// TODO revoir la connexion mongoose
 const app = (0, express_1.default)();
 app.use((0, cors_1.default)());
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const uri = "mongodb+srv://username:eSGvrbLyC5gV2EvY@fut.c5bgtvc.mongodb.net/FUT?retryWrites=true&w=majority&appName=FUT";
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
@@ -37,7 +36,7 @@ function run() {
     });
 }
 run().catch(console.dir);
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8000;
 app.use(express_1.default.json());
 app.use("/api/team/", TeamRoutes_1.default);
 app.use("/api/player/", PlayerRoutes_1.default);

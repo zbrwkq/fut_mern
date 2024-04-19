@@ -6,14 +6,14 @@ import { useUser } from "../UserProvider";
 import { Navigate } from "react-router-dom";
 
 interface Role {
-    name: string;
+  name: string;
 }
 
 interface User {
-    _id: string;
-    name: string;
-    email: string;
-    role: Role;
+  _id: string;
+  name: string;
+  email: string;
+  role: Role;
 }
 
 export default function Users() {
@@ -36,28 +36,19 @@ export default function Users() {
         fetchUsers();
     }, []);
 
-    const handleDeleteUser = async (userId: string) => {
-        try {
-            await axios.delete(`http://localhost:3000/api/user/${userId}`);
-            setUsers(users.filter((user) => user._id !== userId));
-        } catch (error) {
-            console.log(error);
-        }
-    };
+  const handleDeleteUser = async (userId: string) => {
+    try {
+      await axios.delete(`http://localhost:3000/api/users/${userId}`);
+      setUsers(users.filter((user) => user._id !== userId));
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-    const handleEditUser = (user: User) => {
-        setSelectedUser(user);
-        setEditedUser({ ...user });
-    };
-
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (editedUser) {
-            setEditedUser({
-                ...editedUser,
-                [e.target.name]: e.target.value,
-            });
-        }
-    };
+  const handleEditUser = (user: User) => {
+    setSelectedUser(user);
+    setEditedUser({ ...user });
+  };
 
     const handleSubmit = async () => {
         if (editedUser) {
