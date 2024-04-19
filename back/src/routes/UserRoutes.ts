@@ -30,21 +30,27 @@ router.post("/login", async (req: Request, res: Response) => {
 
 router.post("/register", async (req: Request, res: Response) => {
   try {
-    const { email, password, role } = req.body;
+    const { email, password, name } = req.body;
     const existingUser = await UserModel.findOne({ email });
 
     if (existingUser) {
       return res.status(400).json({ message: "Cet utilisateur existe déjà." });
     }
 
-    let existingRole = await RoleModel.findOne({ name: role.name });
+    // Recherche du rôle "Utilisateur" dans la base de données
+    const existingRole = await RoleModel.findOne({ name: "Utilisateur" });
 
-    if (!existingRole) {
-      existingRole = new RoleModel(role);
-      await existingRole.save();
+    let newUser;
+    if (existingRole) {
+      // Si le rôle "Utilisateur" existe, l'attribuer directement au nouvel utilisateur
+      newUser = new UserModel({ email, password, name, role: existingRole });
+    } else {
+      // Si le rôle "Utilisateur" n'existe pas, le créer et l'attribuer au nouvel utilisateur
+      const newRole = new RoleModel({ name: "Utilisateur" });
+      await newRole.save();
+      newUser = new UserModel({ email, password, name, role: newRole });
     }
 
-    const newUser = new UserModel({ email, password, role: existingRole });
     await newUser.save();
 
     res.status(201).json({ message: "Inscription réussie.", user: newUser });

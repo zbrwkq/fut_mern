@@ -48,7 +48,7 @@ export default function Login() {
     setLoading(true);
     const fetchData = async () => {
       try {
-        const { data } = await axios.post("/users/register", {
+        const { data } = await axios.post("/user/register", {
           email: form.email.value,
           password: form.password.value,
           name: form.name.value,
