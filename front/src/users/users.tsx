@@ -36,7 +36,7 @@ export default function Users() {
 
   const handleDeleteUser = async (userId: string) => {
     try {
-      await axios.delete(`/users/${userId}`);
+      await axios.delete(`/user/${userId}`);
       setUsers(users.filter((user) => user._id !== userId));
     } catch (error) {
       console.log(error);
@@ -126,6 +126,7 @@ export default function Users() {
                     type="text"
                     name="name"
                     value={editedUser?.name || ""}
+                    onChange={handleInputChange}
                   />
                 </Form.Group>
                 <Form.Group controlId="formEmail">
@@ -134,6 +135,7 @@ export default function Users() {
                     type="email"
                     name="email"
                     value={editedUser?.email || ""}
+                    onChange={handleInputChange}
                   />
                 </Form.Group>
                 <Button variant="primary" onClick={handleSubmit}>
