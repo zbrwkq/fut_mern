@@ -15,6 +15,7 @@ export default function Admin() {
         <h1 className="text-center d-block">Football club manager</h1>
 
         <h2>Administration</h2>
+        <Link to="/">Retour</Link>
         <Card className="mb-3">
           <Card.Body className="d-flex justify-content-between">
             <Card.Title>Gestion des utilisateurs</Card.Title>
