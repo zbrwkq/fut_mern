@@ -54,6 +54,21 @@ export default function Players() {
     }
   };
 
+  const handleEditPlayer = (player: Player) => {
+    setSelectedPlayer(player);
+    setEditedPlayer({ ...player });
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    if (editedPlayer) {
+      setEditedPlayer({
+        ...editedPlayer,
+        [name]: value,
+      });
+    }
+  };
+
   const handleSubmit = async () => {
     if (editedPlayer) {
       try {
@@ -110,7 +125,7 @@ export default function Players() {
                     </Button>
                     <Button
                       variant="primary"
-                      // onClick={() => handleEditPlayer(player)}
+                      onClick={() => handleEditPlayer(player)}
                     >
                       Modifier
                     </Button>
@@ -130,9 +145,10 @@ export default function Players() {
                     type="text"
                     name="name"
                     value={editedPlayer?.name || ""}
-                    // onChange={handleInputChange}
+                    onChange={handleInputChange}
                   />
                 </Form.Group>
+                {/* Ajoutez d'autres champs de formulaire ici pour d'autres propriétés du joueur */}
                 <Button variant="primary" onClick={handleSubmit}>
                   Enregistrer
                 </Button>
