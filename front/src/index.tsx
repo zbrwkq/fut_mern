@@ -8,6 +8,7 @@ import Login from "./auth/login";
 import Register from "./auth/register";
 import Logout from "./auth/logout";
 import Users from "./users/users";
+import Players from "./players/players";
 import axios from "axios";
 
 axios.defaults.baseURL = "http://127.0.0.1:8000/api";
@@ -31,8 +32,12 @@ const router = createBrowserRouter([
   },
   {
     path: "/users",
-    element: <Users />,
+    element: <Users />
   },
+  {
+    path: "/players",
+    element: <Players />
+  }
 ]);
 
 const root = ReactDOM.createRoot(

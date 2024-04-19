@@ -31,7 +31,6 @@ router.post("/login", async (req: Request, res: Response) => {
 router.post("/register", async (req: Request, res: Response) => {
   try {
     const { email, password, role } = req.body;
-
     const existingUser = await UserModel.findOne({ email });
 
     if (existingUser) {
