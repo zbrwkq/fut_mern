@@ -8,6 +8,7 @@ import axios from "axios";
 export default function Login() {
   const [validated, setValidated] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [valid, setValid] = useState(false);
   const [error, setError] = useState("");
   const { user, setUser } = useUser();
   const navigate = useNavigate();
@@ -31,7 +32,7 @@ export default function Login() {
       'input[name="password"]'
     )!.value;
     setLoading(true);
-
+    setValid(true);
     const fetchData = async () => {
       try {
         const { data } = await axios.post("/user/login", {
@@ -43,6 +44,7 @@ export default function Login() {
       } catch (error: any) {
         setLoading(false);
         if (error.response && error.response.status === 404) {
+          setValid(false);
           setError("Email ou mot de passe incorrect");
         }
         console.error(error);
@@ -87,18 +89,14 @@ export default function Login() {
       <Container className="position-relative w-100">
         <h1 className="text-center d-block">Football club manager</h1>
         <h2>Connexion</h2>
-        <Form
-          noValidate
-          validated={validated}
-          onSubmit={(e) => handleSubmit(e)}
-        >
+        <Form noValidate onSubmit={(e) => handleSubmit(e)}>
           <Form.Group>
             <Form.Label>Adresse Email</Form.Label>
             <Form.Control
               type="text"
               name="email"
               placeholder="Entrez votre email"
-              required
+              isInvalid={validated && !valid}
             />
           </Form.Group>
           <Form.Group>
@@ -107,10 +105,12 @@ export default function Login() {
               type="password"
               name="password"
               placeholder="Entrez votre mot de passe"
-              required
+              isInvalid={validated && !valid}
             />
+            <Form.Control.Feedback type="invalid">
+              {error}
+            </Form.Control.Feedback>
           </Form.Group>
-          <Form.Control.Feedback type="invalid">{error}</Form.Control.Feedback>
           <RegisterButton />
         </Form>
 
