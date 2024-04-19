@@ -3,20 +3,12 @@ import { PlayerModel } from "../models/Player";
 
 const router = Router();
 
-router.get("/", (req: Request, res: Response) => {
+router.get("/count", (req: Request, res: Response) => {
 
     const query = async () => {
         try {
-            let { page, available } = req.query;
-            if (page && typeof page === 'string') {
-                const offset = (parseInt(page) - 1) * 20;
-                let players = await PlayerModel.find(available ? { available: available } : {}).limit(20).skip(offset);
-                res.status(200).send(players);
-                return;
-            }
-
-            let players = await PlayerModel.find({});
-            res.status(200).send(players);
+            const count = await PlayerModel.countDocuments();
+            res.status(200).send({ count });
         } catch (error) {
             console.log(error);
             res.status(500).send("Error while getting documents");
@@ -26,14 +18,15 @@ router.get("/", (req: Request, res: Response) => {
 })
 
 router.get("/", (req: Request, res: Response) => {
+
     const query = async () => {
         try {
             let { page, available } = req.query;
-
             if (page && typeof page === 'string') {
-                const offset = (parseInt(page) - 1) * 20;
+                const offset = parseInt(page) * 20;
                 let players = await PlayerModel.find(available ? { available: available } : {}).limit(20).skip(offset);
                 res.status(200).send(players);
+                return;
             }
 
             let players = await PlayerModel.find({});

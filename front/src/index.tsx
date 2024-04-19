@@ -4,11 +4,18 @@ import "./index.scss";
 import reportWebVitals from "./reportWebVitals";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { UserProvider } from "./UserProvider";
+<<<<<<< Updated upstream
 import Login from "./auth/login";
 import Register from "./auth/register";
 import Logout from "./auth/logout";
 import Users from "./users/users";
 import Players from "./players/players";
+=======
+import Login from "./routes/login";
+import Register from "./routes/register";
+import Users from "./routes/users";
+import Market from "./routes/market";
+>>>>>>> Stashed changes
 import axios from "axios";
 
 axios.defaults.baseURL = "http://127.0.0.1:8000/api";
@@ -35,8 +42,13 @@ const router = createBrowserRouter([
     element: <Users />
   },
   {
+<<<<<<< Updated upstream
     path: "/players",
     element: <Players />
+=======
+    path: "/market",
+    element: <Market/>
+>>>>>>> Stashed changes
   }
 ]);
 
