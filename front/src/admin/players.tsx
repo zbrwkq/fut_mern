@@ -3,7 +3,7 @@ import { Button, Card, Container, Form } from "react-bootstrap";
 import MainSection from "../component/mainSection/mainSection";
 import axios from "axios";
 import { useUser } from "../UserProvider";
-import { Navigate } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 
 interface Player {
   _id: string;
@@ -95,7 +95,8 @@ export default function Players() {
       <Container className="position-relative w-100">
         <h1 className="text-center d-block">Football club manager</h1>
         <h2>Joueurs</h2>
-        <div className="d-flex flex-wrap">
+        <Link to="/admin">Retour</Link>
+        <div className="d-flex flex-wrap my-3">
           {players.map((player, index) => (
             <Card key={index} className="col-4 mb-3">
               <Card.Body>
