@@ -15,8 +15,34 @@ const router = (0, express_1.Router)();
 router.get("/", (req, res) => {
     const query = () => __awaiter(void 0, void 0, void 0, function* () {
         try {
-            let result = yield Player_1.PlayerModel.find({});
-            res.status(200).send(result);
+            let { page, available } = req.query;
+            if (page && typeof page === 'string') {
+                const offset = (parseInt(page) - 1) * 20;
+                let players = yield Player_1.PlayerModel.find(available ? { available: available } : {}).limit(20).skip(offset);
+                res.status(200).send(players);
+                return;
+            }
+            let players = yield Player_1.PlayerModel.find({});
+            res.status(200).send(players);
+        }
+        catch (error) {
+            console.log(error);
+            res.status(500).send("Error while getting documents");
+        }
+    });
+    query();
+});
+router.get("/", (req, res) => {
+    const query = () => __awaiter(void 0, void 0, void 0, function* () {
+        try {
+            let { page, available } = req.query;
+            if (page && typeof page === 'string') {
+                const offset = (parseInt(page) - 1) * 20;
+                let players = yield Player_1.PlayerModel.find(available ? { available: available } : {}).limit(20).skip(offset);
+                res.status(200).send(players);
+            }
+            let players = yield Player_1.PlayerModel.find({});
+            res.status(200).send(players);
         }
         catch (error) {
             console.log(error);
