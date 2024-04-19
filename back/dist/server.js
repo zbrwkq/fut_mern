@@ -19,6 +19,7 @@ const EventRoutes_1 = __importDefault(require("./routes/EventRoutes"));
 const UserRoutes_1 = __importDefault(require("./routes/UserRoutes"));
 const ClubRoutes_1 = __importDefault(require("./routes/ClubRoutes"));
 const cors_1 = __importDefault(require("cors"));
+// TODO revoir la connexion mongoose
 const app = (0, express_1.default)();
 app.use((0, cors_1.default)());
 const mongoose = require("mongoose");
