@@ -32,6 +32,11 @@ export default function Login() {
       valid: false,
       error: "",
     },
+    team: {
+      value: "",
+      valid: false,
+      error: "",
+    },
   });
   useEffect(() => {
     if (user) {
@@ -52,6 +57,7 @@ export default function Login() {
           email: form.email.value,
           password: form.password.value,
           name: form.name.value,
+          team: form.team.value
         });
         setUser(data.user);
         navigate("/");
@@ -168,11 +174,30 @@ export default function Login() {
       };
     }
 
+    let teamObj = {} as { value: string; valid: boolean; error: string };
+    const team = formEl.querySelector<HTMLInputElement>(
+      'input[name="team"]'
+    )!.value;
+    if (!team) {
+      teamObj = {
+        value: team,
+        valid: false,
+        error: "Veuillez renseigner votre team",
+      };
+    } else {
+      teamObj = {
+        value: team,
+        valid: true,
+        error: "",
+      };
+    }
+
     if (
       emailObj.valid &&
       nameObj.valid &&
       passwordObj.valid &&
-      confirmPasswordObj.valid
+      confirmPasswordObj.valid &&
+      teamObj.valid
     ) {
       setValid(true);
     }
@@ -181,6 +206,7 @@ export default function Login() {
       name: nameObj,
       password: passwordObj,
       confirmPassword: confirmPasswordObj,
+      team: teamObj,
     });
   };
 
@@ -275,6 +301,19 @@ export default function Login() {
               className="mt-2"
               isValid={validated && form.confirmPassword.valid}
               isInvalid={validated && !form.confirmPassword.valid}
+              onChange={handleChange}
+            />
+            <Form.Control.Feedback type="invalid">
+              {form.confirmPassword.error}
+            </Form.Control.Feedback>
+            <Form.Label>Nom de l'équipe</Form.Label>
+            <Form.Control
+              type="text"
+              name="team"
+              placeholder="Entrez le nom de votre équipe"
+              className="mt-2"
+              isValid={validated && form.team.valid}
+              isInvalid={validated && !form.team.valid}
               onChange={handleChange}
             />
             <Form.Control.Feedback type="invalid">
