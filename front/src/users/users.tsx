@@ -22,21 +22,23 @@ export default function Users() {
   const [editedUser, setEditedUser] = useState<User | null>(null);
   const { user, setUser } = useUser();
 
-  useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const response = await axios.get<User[]>("/user");
-        setUsers(response.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchUsers();
-  }, []);
+    useEffect(() => {
+        const fetchUsers = async () => {
+            try {
+                const response = await axios.get<User[]>(
+                    "http://localhost:8000/api/user"
+                );
+                setUsers(response.data);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+        fetchUsers();
+    }, []);
 
   const handleDeleteUser = async (userId: string) => {
     try {
-      await axios.delete(`/users/${userId}`);
+      await axios.delete(`http://localhost:8000/api/users/${userId}`);
       setUsers(users.filter((user) => user._id !== userId));
     } catch (error) {
       console.log(error);
@@ -48,24 +50,40 @@ export default function Users() {
     setEditedUser({ ...user });
   };
 
-  const handleSubmit = async () => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
     if (editedUser) {
-      try {
-        await axios.put(`/user/${editedUser._id}`, editedUser);
-        setUsers(
-          users.map((user) => (user._id === editedUser._id ? editedUser : user))
-        );
-        setSelectedUser(null);
-        setEditedUser(null);
-      } catch (error) {
-        console.log(error);
-      }
+        setEditedUser({
+            ...editedUser,
+            [name]: value
+        });
     }
-  };
+};
 
-  if (!user || user.role.name !== "Administrateur") {
-    return <Navigate to="/login" />;
-  }
+
+    const handleSubmit = async () => {
+        if (editedUser) {
+            try {
+                await axios.put(
+                    `http://localhost:8000/api/user/${editedUser._id}`,
+                    editedUser
+                );
+                setUsers(
+                    users.map((user) =>
+                        user._id === editedUser._id ? editedUser : user
+                    )
+                );
+                setSelectedUser(null);
+                setEditedUser(null);
+            } catch (error) {
+                console.log(error);
+            }
+        }
+    };
+
+    // if (!user || user.role.name !== "Administrateur") {
+    //     return <Navigate to="/login" />;
+    // }
 
   return (
     <MainSection>

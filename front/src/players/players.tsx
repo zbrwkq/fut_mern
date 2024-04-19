@@ -23,23 +23,37 @@ export default function Players() {
   const [currentPage, setCurrentPage] = useState(1);
   const { user, setUser } = useUser();
 
-  useEffect(() => {
-    const fetchPlayers = async () => {
-      try {
-        const response = await axios.get<Player[]>(
-          `/player?page=${currentPage}`
-        );
-        const playersWithClubNames = await Promise.all(
-          response.data.map(async (player) => {
-            const clubResponse = await axios.get(`/club/${player.club}`);
-            const clubName = clubResponse.data.name;
-            return { ...player, clubName };
-          })
-        );
-        setPlayers(playersWithClubNames);
-      } catch (error) {
-        console.log(error);
-      }
+    useEffect(() => {
+        const fetchPlayers = async () => {
+            try {
+                const response = await axios.get<Player[]>(
+                    `http://localhost:8000/api/player?page=${currentPage}`
+                );
+                const playersWithClubNames = await Promise.all(
+                    response.data.map(async (player) => {
+                        const clubResponse = await axios.get(
+                            `http://localhost:8000/api/club/${player.club}`
+                        );
+                        const clubName = clubResponse.data.name;
+                        return { ...player, clubName };
+                    })
+                );
+                setPlayers(playersWithClubNames);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+
+        fetchPlayers();
+    }, [currentPage]);
+
+    const handleDeletePlayer = async (playerId: string) => {
+        try {
+            await axios.delete(`http://localhost:8000/api/player/${playerId}`);
+            setPlayers(players.filter((player) => player._id !== playerId));
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     fetchPlayers();
@@ -54,19 +68,24 @@ export default function Players() {
     }
   };
 
-  const handleEditPlayer = (player: Player) => {
-    setSelectedPlayer(player);
-    setEditedPlayer({ ...player });
-  };
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (editedPlayer) {
-      setEditedPlayer({
-        ...editedPlayer,
-        [e.target.name]: e.target.value,
-      });
-    }
-  };
+    const handleSubmit = async () => {
+        if (editedPlayer) {
+            try {
+                await axios.put(
+                    `http://localhost:8000/api/player/${editedPlayer._id}`,
+                    editedPlayer
+                );
+                setPlayers(
+                    players.map((player) =>
+                        player._id === editedPlayer._id ? editedPlayer : player
+                    )
+                );
+                setSelectedPlayer(null);
+                setEditedPlayer(null);
+            } catch (error) {
+                console.log(error);
+            }
+        }
 
   const handleSubmit = async () => {
     if (editedPlayer) {
