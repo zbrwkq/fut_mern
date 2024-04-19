@@ -23,7 +23,7 @@ router.get("/:id", (req: Request, res: Response) => {
     } else {
         const query = async () => {
             try {
-                let result = await TeamModel.findById(id).exec();
+                let result = await TeamModel.findOne({ id: id });
                 if (!result) {
                     res.status(404).send("Team not foud");
                 } else {
@@ -60,8 +60,8 @@ router.put("/:id", (req: Request, res: Response) => {
     } else {
         const query = async () => {
             try {
-                const result = await TeamModel.findByIdAndUpdate(
-                    id,
+                const result = await TeamModel.findOneAndUpdate(
+                    { id: id },
                     req.body,
                     {
                         returnDocument: "after",

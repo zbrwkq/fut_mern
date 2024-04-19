@@ -5,6 +5,7 @@ type Role = {
 }
 
 type User = {
+  _id: string;
   name: string;
   email: string;
   role: Role;
