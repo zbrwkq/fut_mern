@@ -9,7 +9,6 @@ import Register from "./auth/register";
 import Logout from "./auth/logout";
 import Users from "./admin/users";
 import Players from "./admin/players";
-import Market from "./routes/market";
 import Dashboard from "./dashboard/dashboard";
 import axios from "axios";
 
