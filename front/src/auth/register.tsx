@@ -50,33 +50,35 @@ export default function Login() {
     setValidated(true);
     const formEl = event.currentTarget;
     validateForm(formEl);
-    setLoading(true);
-    const fetchData = async () => {
-      try {
-        const { data } = await axios.post("/user/register", {
-          email: form.email.value,
-          password: form.password.value,
-          name: form.name.value,
-          team: form.team.value
-        });
-        setUser(data.user);
-        navigate("/");
-      } catch (error: any) {
-        setLoading(false);
-        console.error(error);
-        if (error.response && error.response.status === 400) {
-          setForm({
-            ...form,
-            email: {
-              ...form.email,
-              valid: false,
-              error: "Cet email est déjà enregistré",
-            },
+    if (valid) {
+      setLoading(true);
+      const fetchData = async () => {
+        try {
+          const { data } = await axios.post("/user/register", {
+            email: form.email.value,
+            password: form.password.value,
+            name: form.name.value,
+            team: form.team.value,
           });
+          setUser(data.user);
+          navigate("/");
+        } catch (error: any) {
+          setLoading(false);
+          console.error(error);
+          if (error.response && error.response.status === 400) {
+            setForm({
+              ...form,
+              email: {
+                ...form.email,
+                valid: false,
+                error: "Cet email est déjà enregistré",
+              },
+            });
+          }
         }
-      }
-    };
-    fetchData();
+      };
+      fetchData();
+    }
   };
 
   const handleChange = () => {
@@ -175,9 +177,8 @@ export default function Login() {
     }
 
     let teamObj = {} as { value: string; valid: boolean; error: string };
-    const team = formEl.querySelector<HTMLInputElement>(
-      'input[name="team"]'
-    )!.value;
+    const team =
+      formEl.querySelector<HTMLInputElement>('input[name="team"]')!.value;
     if (!team) {
       teamObj = {
         value: team,
@@ -317,7 +318,7 @@ export default function Login() {
               onChange={handleChange}
             />
             <Form.Control.Feedback type="invalid">
-              {form.confirmPassword.error}
+              {form.team.error}
             </Form.Control.Feedback>
           </Form.Group>
           <RegisterButton />
